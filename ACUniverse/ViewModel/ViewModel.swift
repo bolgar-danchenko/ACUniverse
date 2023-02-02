@@ -30,6 +30,37 @@ class ViewModel: ObservableObject {
         
         Character(name: "Napoleon Bonaparte", game: Game.ac5, description: "Napoleon Bonaparte, born Napoleone di Buonaparte, and later Napoleon I, was a Corsican military and political leader who ruled first as the First Consul of France, then as Emperor of the French.", imageString: "napoleon")
     ]
+    
+    // Game selected by default
+    @Published var game: Game = .ac2
+    
+    // To allow selection of a character
+    @Published var selectedCharacter: Character?
+    @Published var showSelectedCharacter: Bool = false
+    
+    // Characters filtered by game
+    @Published var filteredCharacters: [Character] = []
+    
+    init() {
+        filterCharactersByGame()
+    }
+    
+    /// Method updates the array of filtered characters according to selected game
+    func filterCharactersByGame() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            let results = self.characters
+                .lazy
+                .filter { character in
+                    return character.game == self.game
+                }
+            
+            DispatchQueue.main.async {
+                self.filteredCharacters = results.compactMap({ character in
+                    return character
+                })
+            }
+        }
+    }
 }
 
 

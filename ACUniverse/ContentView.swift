@@ -8,15 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @Namespace var animation
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-                .font(.custom(assassinFont, size: 30))
-        }
-        .padding()
+        MainView(animation: animation)
     }
 }
 
